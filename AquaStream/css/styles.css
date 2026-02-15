@@ -80,7 +80,7 @@ a {
     z-index: 1000;
     transition: transform var(--transition-speed) var(--transition-ease);
     overflow-y: auto;
-    box-shadow: 2px 0 8px var(--shadow-dark);
+    box-shadow: 2px 0px 20px rgba(0, 0, 0, 0.2);
 }
 
 .sidebar-header {
@@ -169,3 +169,4 @@ a {
         font-size: 1.6rem;
     }
 }
+
