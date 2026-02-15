@@ -6,7 +6,7 @@
         <nav class="sidebar-nav">
             <ul class="nav-list">
                 <li class="nav-item">
-                    <a href="Dashboard.php" class="nav-link">
+                    <a href="Index.php" class="nav-link">
                         <img src="imgs/dashboard-icon.png" alt="Dashboard Icon" class="nav-icon">
                         <span class="nav-text">Dashboard</span>
                     </a>
@@ -32,3 +32,4 @@
             </ul>
         </nav>
 </aside>
+
