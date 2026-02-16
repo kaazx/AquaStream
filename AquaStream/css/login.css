@@ -1,0 +1,137 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'League Spartan', sans-serif;
+}
+
+body {
+    background: linear-gradient(#c7d9e9 0%, #9AD4FF 100%);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    width: 1000px;
+    height: 600px;
+    background: rgba(255, 255, 255, 0.5); /* More transparent white */
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    display: flex;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.left-panel {
+    width: 50%;
+    padding: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.left-panel img {
+    max-width: 470px;
+    height: 570px;
+    max-height: 570px;
+    width: 500px;
+    border-radius: 16px;
+}
+
+.right-panel {
+    width: 50%;
+    padding: 60px;
+}
+
+.welcome {
+    font-size: 48px;
+    margin-bottom: 40px;
+    font-weight: 500;
+    color: #000000;
+}
+
+label {
+    font-size: 16px;
+    font-weight: 600;
+    color: #2563a8; /* Adjusted blue */
+    margin-bottom: 8px;
+    display: block;
+}
+
+form input {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 8px;
+    background: #ffffff;
+}
+
+.forgot {
+    text-align: left; /* Change from 'right' to 'left' */
+    margin-top: -10px;
+    margin-bottom: 25px;
+}
+
+.forgot a {
+    font-size: 14px;
+    color: #2563a8; /* Adjusted blue */
+    text-decoration: none;
+}
+
+.forgot a:hover {
+    text-decoration: underline;
+}
+
+.btn-primary {
+    width: 100%;
+    padding: 14px;
+    background: #2563a8;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 5px; /* Reduced from 20px to 10px */
+}
+.btn-primary:hover {
+    background: #1e4fa3;
+}
+
+.signup-link {
+    margin-top: 2px; /* Even closer */
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    color: #333;
+}
+
+.btn-small {
+    background: #b8d4f1;
+    padding: 8px 20px;
+    border-radius: 30px;
+    text-decoration: none;
+    color: black;
+    font-weight: 500;
+    margin-left: 130px; /* Change back from 'auto' to '10px' */
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+}
+
+.btn-small:hover { 
+    background: #a0c5e8;
+}
+
+.error {
+    background: #f8d7da;
+    color: #842029;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
