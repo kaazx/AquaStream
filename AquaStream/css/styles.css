@@ -1,172 +1,232 @@
-/* Global CSS Styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600;700;800&family=Poppins:wght@300;400;500;600&display=swap');
 
-:root {
-    /* Color Palette */
-    --primary-blue: #003695;
-    --secondary-blue: #1856AB;
-    --accent-green: #4CAF50;
-    --light-gray: #D9D9D9;
-    --white: #FFFFFF;
-    --text-dark: #1A2B49;
-    
-    /* Spacing */
-    --spacing-xs: 0.5rem;
-    --spacing-sm: 1rem;
-    --spacing-md: 1.5rem;
-    --spacing-lg: 2rem;
-    --spacing-xl: 3rem;
-    
-    /* Sidebar */
-    --sidebar-width: 319px;
-    
-    /* Transitions */
-    --transition-speed: 0.3s;
-    --transition-ease: ease;
-}
-
-html {
-    font-size: 16px;
-    scroll-behavior: smooth;
-}
-
-body {
-    font-family: 'League Spartan', sans-serif;
-    line-height: 1.6;
-    color: var(--text-dark);
-    background-color: #F4F9FF;
-    min-height: 100vh;
-    display: flex;
-}
-
-h1, h2, h3, h4, h5, h6 {
-    font-weight: 600;
-    line-height: 1.2;
-    margin-bottom: var(--spacing-sm);
-}
-
-h1 { font-size: 2rem; }
-h2 { font-size: 1.75rem; }
-h3 { font-size: 1.5rem; }
-h4 { font-size: 1.25rem; }
-h5 { font-size: 1.125rem; }
-h6 { font-size: 1rem; }
-
-p {
-    margin-bottom: var(--spacing-sm);
-}
-
-a {
-    text-decoration: none;
-    color: inherit;
-    transition: color var(--transition-speed) var(--transition-ease);
-}
-
-/* Sidebar Navigation */
+/* SIDEBAR STYLE */
 .sidebar {
-    width: var(--sidebar-width);
-    height: 100vh;
-    background: var(--white);
-    color: var(--white);
     position: fixed;
     left: 0;
     top: 0;
-    display: flex;
-    flex-direction: column;
-    z-index: 1000;
-    transition: transform var(--transition-speed) var(--transition-ease);
-    overflow-y: auto;
+    width: 200px;
+    height: 100vh;
+    background-color: #ffffff;
+    border-right: 1px solid #e0e0e0;
     box-shadow: 2px 0px 20px rgba(0, 0, 0, 0.2);
+    padding: 0;
+    z-index: 1000;
+    overflow-y: auto;
 }
 
-.sidebar-header {
-    padding: var(--spacing-sm);
+/* Logo Section */
+.logo-section {
+    padding: 5px 5px;
     text-align: center;
 }
 
-.logo {
-    width: 270px;
-    height: 270px;
-    margin: 0 auto;
-    display: block;
+.logo-img {
+    width: 180px;
+    height: 180px;
 }
 
+.logo-text {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin: 0;
+}
+
+
+/* Navigation */
 .sidebar-nav {
-    flex: 1;
-}
-
-.nav-list {
-    list-style: none;
+    padding: 20px 0;
 }
 
 .nav-item {
-    margin-bottom: -1.8rem;
-}
-
-.nav-link {
+    font-family: 'League Spartan', sans-serif;
     display: flex;
     align-items: center;
-    padding: var(--spacing-md) var(--spacing-lg);
-    color: #1A2B49;
-    transition: all var(--transition-speed) var(--transition-ease);
-    position: relative;
+    padding: 15px 20px;
+    color: #333;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    font-size: 0.95rem;
+    font-weight: 700;
+    border-left: 4px solid transparent;
 }
 
-.nav-link:hover {
-    background: #F4F8FF;
-}
-
-.nav-link.active {
-    background: #F4F8FF;
-    border-left: 4px solid var(--secondary-blue);
-}
-
-.nav-link.active::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 100%;
-    width: 4px;
-    background: var(--secondary-blue);
+.nav-item:hover,
+.nav-item.active {
+    background-color: #f0f8ff;
+    border-left-color: #003366;
+    color: #003366;
 }
 
 .nav-icon {
-    width: 2.6rem;
-    height: 2.7rem;
-    margin-right: var(--spacing-md);
-    text-align: left;
+    width: 24px;
+    height: 24px;
+    margin-right: 12px;
+    flex-shrink: 0;
+    object-fit: contain;
 }
 
-.nav-text {
-    font-size: 1.9rem;
+/* FOOTER STYLE */
+footer {
+    background-color: white;
+    margin-top: -50px;
+    width: calc(100% - 200px); 
+    margin-left: 200px; 
+    position: relative;
+}
+
+.footer-content {
+    text-align: center;
+    padding: 10px 5px 5px;
+    margin: 0 auto;
+}
+
+.footer-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.footer-logo img {
+    width: 70px;
+    height: 70px;
+    margin-top: -5px;
+    margin-bottom: -12px;
+}
+
+.footer-brand {
+    font-size: 1.2rem;
     font-weight: 600;
+    margin: 0;
 }
 
-/* Tablet (768px - 1024px) */
-@media screen and (max-width: 1024px) {
-    :root {
-        --sidebar-width: 270px;
+.tagline {
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    color: #1A2B49;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 15px;
+}
+
+.social-links a {
+    display: inline-block;
+    transition: opacity 0.3s;
+}
+
+.social-links a:hover {
+    opacity: 0.7;
+}
+
+.social-links img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    margin-bottom: -10px;
+}
+
+.ctto {
+    background-color: #003695;
+    padding: 8px 0;
+    margin: 0;
+    width: 100%;
+    text-align: center;
+}
+
+.ctto p {
+    font-family: 'Poppins', sans-serif;
+    color: #fff;
+    font-size: 12px;
+    margin: 0;
+    font-weight: 500;
+}
+
+/* ============================================ */
+/* TABLET VIEWPORT: 768px - 1024px */
+/* ============================================ */
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    /* Sidebar adjustments for tablet */
+    .sidebar {
+        width: 120px;
     }
     
-    .logo {
-        width: 210px;
-        height: 210px;
+    .logo-section {
+        padding: 3px 3px;
+    }
+    
+    .logo-img {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .sidebar-nav {
+        padding: 8px 0;
+    }
+    
+    .nav-item {
+        padding: 8px 10px;
+        font-size: 0.65rem;
     }
     
     .nav-icon {
-        width: 2.1rem;
-        height: 2.2rem;
-        margin-right: var(--spacing-sm);
-        text-align: left;
+        width: 16px;
+        height: 16px;
+        margin-right: 6px;
     }
     
-    .nav-text {
-        font-size: 1.6rem;
+    /* Footer adjustments - matched to smaller content */
+    footer {
+        width: calc(100% - 120px);
+        margin-left: 120px;
+        margin-top: -15px;
+    }
+    
+    .footer-content {
+        padding: 4px 3px 2px;
+    }
+    
+    .footer-logo {
+        margin-bottom: 1px;
+    }
+    
+    .footer-logo img {
+        width: 35px;
+        height: 35px;
+        margin-top: -2px;
+        margin-bottom: -5px;
+    }
+    
+    .tagline {
+        font-size: 7px;
+        margin-bottom: 3px;
+    }
+    
+    .social-links {
+        gap: 2px;
+        margin-bottom: 5px;
+    }
+    
+    .social-links img {
+        width: 12px;
+        height: 12px;
+        margin-bottom: -5px;
+    }
+    
+    .ctto {
+        padding: 3px 0;
+    }
+    
+    .ctto p {
+        font-size: 7px;
     }
 }
-
