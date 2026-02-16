@@ -1,3 +1,30 @@
+function completeOrder(orderId) {
+        if (confirm('Mark this order as complete?')) {
+            // AJAX request to update order status
+            fetch('UpdateOrder.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'id=' + orderId + '&action=complete'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Order completed successfully!');
+                    location.reload();
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            });
+        }
+    }
+
+
 document.addEventListener('DOMContentLoaded', function() {
     
     const quantityInput = document.getElementById('quantity');
@@ -36,30 +63,4 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => successAlert.remove(), 500);
         }, 5000);
     }
-
-    function completeOrder(orderId) {
-        if (confirm('Mark this order as complete?')) {
-            // AJAX request to update order status
-            fetch('UpdateOrder.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: 'id=' + orderId + '&action=complete'
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('Order completed successfully!');
-                    location.reload();
-                } else {
-                    alert('Error: ' + data.message);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred. Please try again.');
-            });
-            }
-        }
 });
