@@ -1,35 +1,32 @@
-<aside class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <img src="imgs/logo.png" alt="AquaStream Logo" class="logo">
-        </div>
-        
-        <nav class="sidebar-nav">
-            <ul class="nav-list">
-                <li class="nav-item">
-                    <a href="Index.php" class="nav-link">
-                        <img src="imgs/dashboard-icon.png" alt="Dashboard Icon" class="nav-icon">
-                        <span class="nav-text">Dashboard</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="CreateOrder.php" class="nav-link active">
-                        <img src="imgs/createorder-icon.png" alt="Create Order Icon" class="nav-icon">
-                        <span class="nav-text">Create Order</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="OrdersList.php" class="nav-link">
-                        <img src="imgs/orderslist-icon.png" alt="Orders List Icon" class="nav-icon">
-                        <span class="nav-text">Orders List</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="History.php" class="nav-link">
-                        <img src="imgs/history-icon.png" alt="History Icon" class="nav-icon">
-                        <span class="nav-text">History</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-</aside>
+<?php
+// Get current page filename
+$current_page = basename($_SERVER['PHP_SELF']);
+?>
 
+<div class="sidebar">
+    <div class="logo-section">
+        <img src="imgs/logo.png" alt="AquaStream Logo" class="logo-img">
+    </div>
+    
+    <nav class="sidebar-nav">
+        <a href="Index.php" class="nav-item <?php echo ($current_page == 'Index.php') ? 'active' : ''; ?>">
+            <img src="imgs/dashboard-icon.png" alt="Dashboard" class="nav-icon">
+            <span>Dashboard</span>
+        </a>
+        
+        <a href="CreateOrder.php" class="nav-item <?php echo ($current_page == 'CreateOrder.php') ? 'active' : ''; ?>">
+            <img src="imgs/createorder-icon.png" alt="Create Order" class="nav-icon">
+            <span>Create Order</span>
+        </a>
+        
+        <a href="OrdersList.php" class="nav-item <?php echo ($current_page == 'OrdersList.php') ? 'active' : ''; ?>">
+            <img src="imgs/orderslist-icon.png" alt="Orders List" class="nav-icon">
+            <span>Orders List</span>
+        </a>
+        
+        <a href="History.php" class="nav-item <?php echo ($current_page == 'History.php') ? 'active' : ''; ?>">
+            <img src="imgs/history-icon.png" alt="History" class="nav-icon">
+            <span>History</span>
+        </a>
+    </nav>
+</div>
