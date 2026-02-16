@@ -1,0 +1,348 @@
+/* AquaStream Create Order & Orders List CSS */
+@import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600;700;800&family=Poppins:wght@300;400;500;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #F4F9FF;
+}
+
+body, input, textarea, button, select, h1, h2, h3, h4, h5, h6 {
+    font-family: 'League Spartan', sans-serif !important;
+}
+
+html, body {
+    height: 100%;
+}
+
+.order-container {
+    display: flex;
+    margin-left: 200px;
+    min-height: 100vh;
+    height: 100%;
+    justify-content: center;   
+    align-items: center;
+    padding: 1rem 0 4rem 0;
+}
+
+.order-card {
+    background: #FFFFFF;
+    border-radius: 15px;
+    border: 2px solid #1A2B49;
+    padding: 100px 130px 60px 130px;
+    position: relative;
+    width: 100%;
+    max-width: 880px;
+    margin: 50px auto 20px auto;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+}
+
+.card-header {
+    position: absolute;
+    border-radius: 5px;
+    top: -33px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+}
+
+.form-title {
+    font-family: 'League Spartan', sans-serif;
+    background: linear-gradient(to right, #003695, #1856AB);
+    color: #FFFFFF;
+    padding: 12px 30px;
+    border-radius: 5px;
+    font-size: 2.8rem;
+    font-weight: 700;
+}
+
+.order-form {
+    max-width: 710px;
+    margin: 0 auto;
+}
+
+.form-group {
+    margin-bottom: 33px;
+}
+
+.form-label {
+    display: block;
+    font-weight: 600;
+    color: #1A2B49;
+    margin-bottom: 8px;
+    font-size: 1.5rem;
+}
+
+.required {
+    color: #FF0000;
+}
+
+.form-input,
+.form-textarea {
+    width: 100%;
+    padding: 16px 20px;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    font-family: inherit;
+    background: #D9D9D9;
+    transition: none;
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+    color: #6C757D;
+    opacity: 0.5;
+    font-size: 1.5rem;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+    outline: none;
+    background: #D9D9D9;
+}
+
+.form-textarea {
+    resize: none;
+    min-height: 50px;
+    height: 50px;
+}
+
+.form-row {
+    display: flex;
+    gap: 8rem;
+    margin-bottom: 35px;
+}
+
+.form-group-half {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+.quantity-control {
+    display: flex;
+    align-items: center;
+    background: #D9D9D9;
+    border-radius: 5px;
+    height: 50px;
+    padding: 0;
+}
+
+.quantity-btn {
+    background: transparent;
+    border: none;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #1A2B49;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.quantity-btn:hover {
+    background: transparent;
+}
+
+.quantity-input {
+    border: none;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.5rem;
+    background: transparent;
+    flex: 1;
+    color: #1A2B49;
+}
+
+.quantity-input:focus {
+    outline: none;
+    background: transparent;
+}
+
+.date-input-wrapper {
+    position: relative;
+}
+
+.date-input {
+    cursor: pointer;
+    color: #1A2B49;
+}
+
+.date-icon {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #1A2B49;
+    font-size: 20px;
+    pointer-events: none;
+}
+
+.date-input::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.payment-container {
+    margin-bottom: -5px;
+}
+
+.radio-option {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 1.5rem;
+    margin-bottom: 12px;
+    color: #1A2B49;
+    font-weight: 400;
+    line-height: 1;
+}
+
+.radio-option input[type="radio"] {
+    width: 22px;
+    height: 22px;
+    margin: 0;
+    margin-right: 12px;
+    cursor: pointer;
+    accent-color: #003695;
+    flex-shrink: 0;
+}
+
+.form-actions {
+    margin-top: 50px;
+    text-align: center;
+}
+
+.status-cell form {
+    margin: 0;
+}
+
+.btn {
+    font-family: 'League Spartan', sans-serif;
+    border-radius: 5px;
+    background: linear-gradient(to right, #003695, #1856AB);
+    padding: 10px 40px;
+    border: none;
+    color: #FFFFFF;
+    font-size: 2.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.btn:hover {
+    background: #003695;
+}
+
+.btn:active {
+    opacity: 1;
+}
+
+.form-input.error,
+.form-textarea.error {
+    border: 2px solid #FF0000;
+}
+
+.error-message {
+    display: block;
+    color: #FF0000;
+    font-size: 14px;
+    margin-top: 8px;
+    font-weight: 600;
+}
+
+.alert {
+    padding: 16px 20px;
+    border-radius: 8px;
+    margin-bottom: 24px;
+    font-size: 16px;
+}
+
+.alert-success {
+    background: #D4EDDA;
+    color: #155724;
+    border: 1px solid #C3E6CB;
+}
+
+.alert-error {
+    background: #F8D7DA;
+    color: #721C24;
+    border: 1px solid #F5C6CB;
+}
+
+.orders-list-container {
+    flex: 1;
+    margin-left: 200px;
+    padding: 40px 30px 100px 30px;
+    background: #F4F9FF;
+    min-height: 100vh;
+}
+        
+.orders-title {
+    font-family: 'League Spartan', sans-serif;
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: #003695;
+    margin: 20px 0 20px 30px;
+    text-align: left;
+}
+        
+.orders-table-wrapper {
+    background: white;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+        
+.orders-table-clean {
+    width: 100%;
+    border-collapse: collapse;
+}
+        
+.orders-table-clean thead tr {
+    background: #9AD4FF;
+    border: 1px solid #999999;
+}
+        
+.orders-table-clean th {
+    padding: 20px;
+    text-align: center;
+    font-weight: 400;
+    font-size: 1.05rem;
+    color: #000;
+    border-right: 1px solid #999999;
+    border-bottom: 1px solid #999999;
+}
+        
+.orders-table-clean td {
+    padding: 12px 20px;
+    font-size: 1rem;
+    color: #1A2B49;
+    border-right: 1px solid #D1CDCD;
+    border: 1px solid #D1CDCD;
+}
+        
+.orders-table-clean tbody tr:hover {
+    background: #F0F8FF;
+}
+        
+.status-cell {
+    text-align: center;
+}
+        
+.status-checkbox {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: #003366;
+}
