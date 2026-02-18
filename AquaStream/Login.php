@@ -41,6 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <!-- RIGHT SIDE -->
     <div class="right-panel">
+        <img src="imgs/logo.png" alt="AquaStream Logo" class="logo_login">
         <h2 class="welcome">Welcome!</h2>
 
         <?php if($message != ""): ?>
