@@ -40,7 +40,7 @@ body {
 .left-panel img {
     max-width: 470px;
     height: 570px;
-    max-height: 570px;   /* adjust */
+    max-height: 570px;
     width: 500px;
     border-radius: 16px;
 }
@@ -194,4 +194,39 @@ form input {
 
 .btn-facebook:hover {
     background: #f0f4ff;
+}
+
+
+/* TABLET VIEW (max 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+
+    body {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 40px 20px;
+    }
+
+    .container {
+        width: 90%;
+        max-width: 750px;
+        height: auto;
+        flex-direction: column;
+        padding: 50px 40px;
+    }
+
+    .left-panel {
+        display: none;
+    }
+
+    .right-panel {
+        width: 100%;
+        padding: 60px 50px;
+    }
+
+    .welcome {
+        font-size: 40px;
+        margin-bottom: 35px;
+    }
 }
