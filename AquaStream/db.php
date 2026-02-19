@@ -2,18 +2,15 @@
 // ============================================================
 // db.php — Central Database Configuration
 // ============================================================
-// This file holds your master database credentials in one place.
+// This file holds our master database credentials in one place.
 // Every other file includes this instead of repeating the same
 // connection code over and over.
 //
-// IMPORTANT: The MySQL user (root here) must have the privilege
-// to CREATE DATABASES. In a local XAMPP/WAMP setup, root already
-// has this. On a live server, ask your host to grant it.
 // ============================================================
 
 define('DB_HOST', 'localhost');
-define('DB_USER', 'root');       // ← Change this on a live server
-define('DB_PASS', '');           // ← Change this on a live server
+define('DB_USER', 'root');       // ← Live server
+define('DB_PASS', '');           // ← Live server
 define('MASTER_DB', 'aquastream_master'); // The one shared database
 
 // ============================================================
