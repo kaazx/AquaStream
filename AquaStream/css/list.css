@@ -1,0 +1,177 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #F4F9FF;
+}
+
+html, body {
+    height: 100%;
+}
+
+.orders-list-container {
+    flex: 1;
+    margin-left: 200px;
+    padding: 40px 30px 100px 30px;
+    background: #F4F9FF;
+    min-height: 100vh;
+}
+        
+.orders-title {
+    font-family: 'League Spartan', sans-serif;
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: #003695;
+    margin: 20px 0 20px 30px;
+    text-align: left;
+}
+        
+.orders-table-wrapper {
+    background: white;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+        
+.orders-table-clean {
+    width: 100%;
+    border-collapse: collapse;
+}
+        
+.orders-table-clean thead tr {
+    background: #9AD4FF;
+}
+        
+.orders-table-clean th {
+    padding: 20px;
+    text-align: center;
+    font-weight: 400;
+    font-size: 1.05rem;
+    color: #000;
+    border: 1px solid #999999;
+}
+        
+.orders-table-clean td {
+    padding: 12px 20px;
+    font-size: 1rem;
+    color: #1A2B49;
+    border-right: 1px solid #D1CDCD;
+    border: 1px solid #D1CDCD;
+}
+        
+.orders-table-clean tbody tr:hover {
+    background: #F0F8FF;
+}
+        
+.status-cell {
+    text-align: center;
+}
+        
+.status-checkbox {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: #003366;
+}
+
+.table-with-icons {
+    display: flex;
+    align-items: flex-start;
+}
+
+.orders-table-clean {
+    flex: 1;
+}
+
+.trash-column {
+    display: flex;
+    flex-direction: column;
+    background: #F4F9FF;
+}
+
+.trash-header {
+    background: #F4F9FF;
+    border-bottom: 1px solid transparent;
+    padding: 30px 0;
+    line-height: 1.05rem;
+}
+
+.trash-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 12px;
+    border-bottom: 1px solid transparent;
+    min-height: 48px;
+    flex: 1;
+}
+
+.trash-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.trash-icon {
+    color: #999999;
+    font-size: 1rem;
+    transition: color 0.2s ease;
+}
+
+.trash-btn:hover .trash-icon {
+    color: #cc2222;
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    .orders-list-container {
+        margin-left: 160px;
+        padding: 20px 15px 0 15px;
+    }
+
+    .orders-title {
+        font-size: 2.2rem;
+        margin: 16px 0 16px 10px;
+    }
+
+    .orders-table-wrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .orders-table-clean {
+        min-width: 700px;
+    }
+
+    .orders-table-clean th {
+        padding: 14px 5px;
+        font-size: 0.9rem;
+    }
+
+    .orders-table-clean td {
+        padding: 12px;
+        font-size: 0.85rem;
+    }
+
+    .status-checkbox {
+        width: 15px;
+        height: 15px;
+    }
+
+    .trash-header {
+        padding: 22px 0;
+    }
+
+    .trash-row {
+        min-height: 43px;
+        padding: 0 8px;
+    }
+
+    .trash-icon {
+        font-size: 0.83rem;
+    }
+}
