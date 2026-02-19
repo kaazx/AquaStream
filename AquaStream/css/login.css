@@ -142,33 +142,6 @@ form input {
 
 /* TABLET VIEW */
 @media (min-width: 768px) and (max-width: 1024px) {
-    .container {
-        width: 90%;
-        height: auto;
-        flex-direction: column;
-    }
-
-    .left-panel {
-        display: none; 
-    }
-
-    .right-panel {
-        width: 100%;
-        padding: 40px;
-    }
-
-    .welcome {
-        font-size: 36px;
-        margin-bottom: 30px;
-    }
-
-}
-
-
-/* TABLET VIEW */
-
-
-@media (min-width: 768px) and (max-width: 1024px) {
 
     body {
         height: auto;
@@ -251,5 +224,4 @@ form input {
         font-size: 12px;
         white-space: nowrap;
     }
-
 }
