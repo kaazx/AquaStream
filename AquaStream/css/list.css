@@ -127,6 +127,16 @@ html, body {
     color: #cc2222;
 }
 
+.no-orders {
+    font-family: 'League Spartan', sans-serif;
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px;
+    color: #666;
+    font-size: 1.7rem;
+    font-weight: 400;
+}
+
 @media (min-width: 768px) and (max-width: 1024px) {
     .orders-list-container {
         margin-left: 160px;
@@ -174,4 +184,5 @@ html, body {
     .trash-icon {
         font-size: 0.83rem;
     }
+
 }
