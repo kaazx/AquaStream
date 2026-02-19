@@ -1,15 +1,7 @@
 <?php
-// Handles AJAX requests to update order status in AdminDB
+require_once 'db.php';
 
-session_start();
-
-// Connect to database
-$conn = new mysqli("localhost", "root", "", "AdminDB");
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+$conn = connectUserDB();
 
 header('Content-Type: application/json');
 
@@ -23,7 +15,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if ($action === 'complete') {
-        // Update order status to completed
         $updateQuery = "UPDATE orders 
                        SET order_status = 'Completed' 
                        WHERE id = ?";
