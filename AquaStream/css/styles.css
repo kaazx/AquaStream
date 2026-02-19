@@ -155,78 +155,82 @@ footer {
 /* ============================================ */
 
 @media (min-width: 768px) and (max-width: 1024px) {
-    /* Sidebar adjustments for tablet */
+    /* Sidebar */
     .sidebar {
-        width: 120px;
+        width: 160px;
     }
-    
+
     .logo-section {
-        padding: 3px 3px;
+        padding: 6px;
     }
-    
+
     .logo-img {
-        width: 70px;
-        height: 70px;
+        width: 130px;
+        height: 130px;
     }
-    
+
     .sidebar-nav {
-        padding: 8px 0;
+        padding: 10px 0;
     }
-    
+
     .nav-item {
-        padding: 8px 10px;
-        font-size: 0.65rem;
+        padding: 14px 16px;
+        font-size: 0.88rem;
     }
-    
+
     .nav-icon {
-        width: 16px;
-        height: 16px;
-        margin-right: 6px;
+        width: 22px;
+        height: 22px;
+        margin-right: 10px;
     }
-    
-    /* Footer adjustments - matched to smaller content */
+
+    /* Footer — offset to match sidebar */
     footer {
-        width: calc(100% - 120px);
-        margin-left: 120px;
-        margin-top: -15px;
+        width: calc(100% - 160px);
+        margin-left: 160px;
+        margin-top: 0;
     }
-    
+
     .footer-content {
-        padding: 4px 3px 2px;
+        padding: 10px 8px 6px;
     }
-    
+
     .footer-logo {
-        margin-bottom: 1px;
+        margin-bottom: 4px;
     }
-    
+
     .footer-logo img {
-        width: 35px;
-        height: 35px;
+        width: 55px;
+        height: 55px;
         margin-top: -2px;
-        margin-bottom: -5px;
+        margin-bottom: -12px;
     }
-    
+
+    .footer-brand {
+        font-size: 1rem;
+    }
+
     .tagline {
-        font-size: 7px;
-        margin-bottom: 3px;
+        font-size: 11px;
+        margin-bottom: 6px;
     }
-    
+
     .social-links {
-        gap: 2px;
-        margin-bottom: 5px;
+        gap: 5px;
+        margin-bottom: 10px;
     }
-    
+
     .social-links img {
-        width: 12px;
-        height: 12px;
-        margin-bottom: -5px;
+        width: 17px;
+        height: 17px;
+        margin-bottom: -6px;
     }
-    
+
     .ctto {
-        padding: 3px 0;
+        padding: 7px 0;
     }
-    
+
     .ctto p {
-        font-size: 7px;
+        font-size: 10px;
     }
 }
