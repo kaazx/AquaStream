@@ -1,9 +1,7 @@
 <?php 
-$conn = new mysqli("localhost", "root", "", "AdminDB");
+require_once 'db.php'; 
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+$conn = connectUserDB();
 
 $orders = $conn->query("SELECT * FROM orders WHERE order_status='Completed' ORDER BY created_at DESC");
 ?>
