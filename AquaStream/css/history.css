@@ -85,11 +85,17 @@ h3 {
 /* Tablet (768px - 1024px) */
 @media screen and (max-width: 1024px) {
    main {
-        padding: 30px;
+        margin-left: 160px;
+        padding: 25px 20px;
+        justify-content: center;
     }
 
     .content {
-        max-width: 700px;
+        max-width: 600px;
+    }
+
+    .order-card {
+        max-width: 530px;
     }
 
     .order-details {
