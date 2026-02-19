@@ -24,7 +24,6 @@ function completeOrder(orderId) {
         }
     }
 
-
 document.addEventListener('DOMContentLoaded', function() {
     
     const quantityInput = document.getElementById('quantity');
@@ -49,7 +48,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Set minimum date to today
     const deliveryDateInput = document.getElementById('delivery_date');
     if (deliveryDateInput) {
         const today = new Date().toISOString().split('T')[0];
