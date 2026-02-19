@@ -1,24 +1,24 @@
 <?php
-session_start();
 
-// Connect to database
-$conn = new mysqli("localhost", "root", "", "AdminDB");
+require_once 'db.php';
 
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+$conn = connectUserDB();
 
-// Get dashboard statistics
+$userName = htmlspecialchars($_SESSION['user_name']);
+
 $totalOrders = $conn->query("SELECT COUNT(*) as count FROM orders")->fetch_assoc()['count'];
-$pendingOrders = $conn->query("SELECT COUNT(*) as count FROM orders WHERE order_status='Pending'")->fetch_assoc()['count'];
-$completedOrders = $conn->query("SELECT COUNT(*) as count FROM orders WHERE order_status='Completed'")->fetch_assoc()['count'];
+$pendingOrders = $conn->query("SELECT COUNT(*) as count FROM orders WHERE order_status = 'Pending'")->fetch_assoc()['count'];
+$completedOrders = $conn->query("SELECT COUNT(*) as count FROM orders WHERE order_status = 'Completed'")->fetch_assoc()['count'];
 
-// Get urgent orders (pending orders due today or overdue)
 $today = date('Y-m-d');
-$urgentOrders = $conn->query("SELECT * FROM orders WHERE order_status='Pending' AND delivery_date = '$today' ORDER BY delivery_date ASC LIMIT 6");
+$urgentOrders = $conn->query(
+    "SELECT * FROM orders
+     WHERE order_status = 'Pending'
+     AND delivery_date <= '$today'
+     ORDER BY delivery_date ASC
+     LIMIT 6"
+);
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,7 +34,7 @@ $urgentOrders = $conn->query("SELECT * FROM orders WHERE order_status='Pending' 
 
     <div class="main-content">
         <div class="header">
-            <h1>Hello, Owner!</h1>
+            <h1>Hello, <?php echo $userName; ?>!</h1>
             <button class="logout-btn" onclick="location.href='logout.php'">Log Out</button>
         </div>
 
@@ -60,7 +60,9 @@ $urgentOrders = $conn->query("SELECT * FROM orders WHERE order_status='Pending' 
                     <?php while ($row = $urgentOrders->fetch_assoc()): ?>
                         <div class="order-card">
                             <div class="order-info">
-                                <h4>Order #<?php echo htmlspecialchars($row['id']); ?> - Due Today</h4>
+                                <h4>Order #<?php echo htmlspecialchars($row['id']); ?> - 
+                                    <?php echo ($row['delivery_date'] < $today) ? 'Overdue' : 'Due Today'; ?>
+                                </h4>
                                 <p><?php echo htmlspecialchars($row['customer_name']); ?>, <?php echo htmlspecialchars($row['customer_address']); ?></p>
                             </div>
                             <button class="complete-btn" onclick="completeOrder(<?php echo $row['id']; ?>)">
@@ -78,11 +80,9 @@ $urgentOrders = $conn->query("SELECT * FROM orders WHERE order_status='Pending' 
     </div>
 
     <?php include 'footer.php'; ?>
-
+    
     <script src="js/main.js"></script>
 </body>
 </html>
 
-<?php
-$conn->close();
-?>
+<?php $conn->close(); ?>
