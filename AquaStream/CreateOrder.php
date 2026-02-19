@@ -1,15 +1,8 @@
 <?php
-session_start();
+require_once 'db.php'; 
 
-// Connect to database
-$conn = new mysqli("localhost", "root", "", "AdminDB");
+$conn = connectUserDB();
 
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// Creates a new order with validation and error handling
 $errors = [];
 $successMessage = '';
 
@@ -20,7 +13,6 @@ if (isset($_POST['add'])) {
     $delivery_date = trim($_POST['delivery_date'] ?? '');
     $payment_method = trim($_POST['payment_method'] ?? '');
     
-    // Basic validation
     if (empty($customer_name)) {
         $errors['customer_name'] = 'Customer name is required.';}
     
@@ -33,7 +25,6 @@ if (isset($_POST['add'])) {
     if (empty($payment_method)) {
         $errors['payment_method'] = 'Payment method is required.';}
     
-    // If no errors, add order to database
     if (empty($errors)) {
         $customer_name = $conn->real_escape_string($customer_name);
         $customer_address = $conn->real_escape_string($customer_address);
@@ -53,7 +44,6 @@ if (isset($_POST['add'])) {
     }
 }
 
-// Get success message from session
 if (isset($_SESSION['success_message'])) {
     $successMessage = $_SESSION['success_message'];
     unset($_SESSION['success_message']);}
@@ -162,7 +152,6 @@ if (isset($_SESSION['success_message'])) {
             </div>
         </div>
         
-        <!-- Footer -->
         <?php include 'footer.php'; ?>
     </main>
     
