@@ -1,6 +1,7 @@
 <?php
 
 require_once 'db.php';
+require_once 'oauth_helper.php';
 
 $message     = "";
 $messageType = "";
@@ -64,27 +65,60 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 } else {
                     $conn->select_db($userDb);
 
-                    $createOrdersTable = "
-                        CREATE TABLE `orders` (
-                            `id`               INT(11)      NOT NULL AUTO_INCREMENT,
-                            `customer_name`    VARCHAR(255) DEFAULT NULL,
-                            `customer_address` TEXT         DEFAULT NULL,
-                            `quantity`         INT(11)      DEFAULT NULL,
-                            `delivery_date`    DATE         DEFAULT NULL,
-                            `payment_method`   VARCHAR(50)  DEFAULT NULL,
-                            `order_status`     VARCHAR(50)  DEFAULT 'Pending',
-                            `created_at`       TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                            `updated_at`       TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                            PRIMARY KEY (`id`)
+                    $createTables = "
+                        CREATE TABLE `customers` (
+                            `CustomerID`      int(11)      NOT NULL AUTO_INCREMENT,
+                            `CustomerName`    varchar(50)  NOT NULL,
+                            `CustomerAddress` text         NOT NULL,
+                            PRIMARY KEY (`CustomerID`)
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+                        CREATE TABLE `products` (
+                            `ProductID`   int(11)        NOT NULL AUTO_INCREMENT,
+                            `ProductName` varchar(50)    NOT NULL,
+                            `UnitPrice`   decimal(10,2)  NOT NULL CHECK (`UnitPrice` > 0),
+                            PRIMARY KEY (`ProductID`)
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+                        CREATE TABLE `ordersummary` (
+                            `OrderID`       int(11)       NOT NULL AUTO_INCREMENT,
+                            `OrderDate`     date          NOT NULL DEFAULT (curdate()),
+                            `DeliveryDate`  date          DEFAULT NULL,
+                            `ModeOfPayment` varchar(20)   NOT NULL,
+                            `OrderStatus`   varchar(20)   NOT NULL DEFAULT 'Pending',
+                            `TotalAmount`   decimal(10,2) NOT NULL DEFAULT 0.00,
+                            `UpdatedAt`     timestamp     NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+                            PRIMARY KEY (`OrderID`)
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+                        CREATE TABLE `orderdetails` (
+                            `OrderDetailID` int(11) NOT NULL AUTO_INCREMENT,
+                            `OrderID`       int(11) NOT NULL,
+                            `CustomerID`    int(11) NOT NULL,
+                            `ProductID`     int(11) NOT NULL,
+                            `Quantity`      int(11) NOT NULL CHECK (`Quantity` > 0),
+                            `UnitPrice`     decimal(10,2) NOT NULL,
+                            `TotalAmount`   decimal(10,2) GENERATED ALWAYS AS (`Quantity` * `UnitPrice`) STORED,
+                            PRIMARY KEY (`OrderDetailID`),
+                            FOREIGN KEY (`OrderID`)    REFERENCES `ordersummary`(`OrderID`) ON DELETE CASCADE,
+                            FOREIGN KEY (`CustomerID`) REFERENCES `customers`(`CustomerID`),
+                            FOREIGN KEY (`ProductID`)  REFERENCES `products`(`ProductID`)
                         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
                     ";
 
-                    if (!$conn->query($createOrdersTable)) {
+                    if (!$conn->multi_query($createTables)) {
                         $message     = "Database created but table setup failed. Contact support.";
                         $messageType = "error";
                     } else {
-                        $message     = "Account created successfully! You can now log in.";
-                        $messageType = "success";
+                        while ($conn->more_results() && $conn->next_result()) {}
+
+                        if (!$conn->query("INSERT INTO `products` (`ProductName`, `UnitPrice`) VALUES ('Gallon of Water', 25.00)")) {
+                            $message     = "Tables created but default product could not be seeded. Contact support.";
+                            $messageType = "error";
+                        } else {
+                            $message     = "Account created successfully! You can now log in.";
+                            $messageType = "success";
+                        }
                     }
                 }
 
@@ -146,12 +180,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="divider"><span>Or register with</span></div>
 
             <div class="social-buttons">
-                <button type="button" class="btn-google">
+                <!-- Google -->
+                <a href="oauth_google.php" class="btn-google">
                     <img src="imgs/google-icon.png" alt="Google"> Google
-                </button>
-                <button type="button" class="btn-facebook">
+                </a>
+
+                <!-- Facebook -->
+                <a href="oauth_facebook.php" class="btn-facebook">
                     <img src="imgs/facebook-icon.png" alt="Facebook"> Facebook
-                </button>
+                </a>
             </div>
         </form>
     </div>
