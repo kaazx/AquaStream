@@ -4,7 +4,31 @@
 }
 
 body {
-    background: #F4F9FF;
+    font-family: 'League Spartan', sans-serif;
+    position: relative;
+    overflow-x: hidden;
+}
+ 
+/* ── Background Image ── */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    background-image: url("../imgs/desktop-bg.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 1 ;
+}
+ 
+/* Soft white wash overlay for readability */
+body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: rgba(255, 255, 255, 0.42);
 }
 
 html, body {
@@ -15,7 +39,7 @@ html, body {
     flex: 1;
     margin-left: 200px;
     padding: 40px 30px 100px 30px;
-    background: #F4F9FF;
+
     min-height: 100vh;
 }
         
@@ -23,7 +47,7 @@ html, body {
     font-family: 'League Spartan', sans-serif;
     font-size: 3.5rem;
     font-weight: 700;
-    color: #003695;
+    color: #1856AB;
     margin: 20px 0 20px 30px;
     text-align: left;
 }
@@ -54,6 +78,7 @@ html, body {
         
 .orders-table-clean td {
     padding: 12px 20px;
+    text-align: center;
     font-size: 1rem;
     color: #1A2B49;
     border-right: 1px solid #D1CDCD;
@@ -84,43 +109,54 @@ html, body {
     flex: 1;
 }
 
-.trash-column {
-    display: flex;
-    flex-direction: column;
-    background: #F4F9FF;
-}
-
-.trash-header {
-    background: #F4F9FF;
-    border-bottom: 1px solid transparent;
-    padding: 30px 0;
-    line-height: 1.05rem;
-}
-
-.trash-row {
+/* Action cell: stacks edit and trash side by side */
+.action-cell {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0 12px;
-    border-bottom: 1px solid transparent;
-    min-height: 48px;
-    flex: 1;
+    gap: 8px;
 }
 
+.action-cell form {
+    margin: 0;
+}
+
+/* Shared base for edit and trash buttons */
+.edit-btn,
 .trash-btn {
     background: none;
     border: none;
-    padding: 0;
+    padding: 4px 6px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 4px;
+    transition: background 0.15s ease;
+}
+
+.edit-icon {
+    color: #999999;
+    font-size: 1rem;
+    transition: color 0.2s ease;
+}
+
+.edit-btn:hover {
+    background: #EAF4FF;
+}
+
+.edit-btn:hover .edit-icon {
+    color: #003695;
 }
 
 .trash-icon {
     color: #999999;
     font-size: 1rem;
     transition: color 0.2s ease;
+}
+
+.trash-btn:hover {
+    background: #FFF0F0;
 }
 
 .trash-btn:hover .trash-icon {
@@ -172,17 +208,8 @@ html, body {
         height: 15px;
     }
 
-    .trash-header {
-        padding: 22px 0;
-    }
-
-    .trash-row {
-        min-height: 43px;
-        padding: 0 8px;
-    }
-
+    .edit-icon,
     .trash-icon {
         font-size: 0.83rem;
     }
-
 }
