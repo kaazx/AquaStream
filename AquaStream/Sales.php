@@ -2,9 +2,6 @@
 require_once 'db.php';
 $conn = connectUserDB();
 
-// ─── DAILY: yesterday through next 28 days (grouped by DeliveryDate) ────────
-// Window: CURDATE() - 1 day → CURDATE() + 28 days
-// Yesterday stays visible; future delivery dates show their completed sales.
 $dailyRows = $conn->query(
     "SELECT
         DATE(os.DeliveryDate)       AS day,
@@ -25,9 +22,7 @@ $dailyOrders = [];
 while ($r = $dailyRows->fetch_assoc()) {
     $dailyData[$r['day']] = $r;
 }
-// Fill 30 slots: yesterday (offset -1) through +28 days from today
-// Uses date arithmetic directly to avoid strtotime sign ambiguity
-// Labels: "Mar 20", "Mar 21", "Mar 22" ... "Apr 18"
+
 $startDate = date('Y-m-d', strtotime('-1 day'));
 for ($i = 0; $i < 30; $i++) {
     $d = date('Y-m-d', strtotime($startDate . " +$i days"));
@@ -83,7 +78,7 @@ while ($r = $weeklyRows->fetch_assoc()) {
     $weeklySales[]     = (float)$r['sales'];
     $weeklyOrders[]    = (int)  $r['orders'];
 }
-// Pad to 12 weeks if fewer results
+
 while (count($weeklySales) < 12) {
     $weeklyLabels[]    = 'Week ' . $wIdx++;
     $weeklySales[]     = 0;
@@ -113,7 +108,6 @@ $weeklyChangePct = $lastWeekSales > 0
 
 $conn->close();
 
-// helpers for formatting
 function peso(float $n): string {
     return '₱ ' . number_format($n, 0, '.', ',');
 }
@@ -140,7 +134,6 @@ function peso(float $n): string {
                 <h1>Sales Dashboard</h1>
             </header>
 
-            <!-- Tab buttons -->
             <div class="tabs">
                 <button class="tab-button active" data-tab="daily">
                     <i class="fas fa-chart-line"></i> Daily Sales
@@ -226,7 +219,7 @@ function peso(float $n): string {
                 </div>
             </div>
 
-        </div><!-- /.sales-container -->
+        </div>
     </main>
 
     <?php include 'footer.php'; ?>
