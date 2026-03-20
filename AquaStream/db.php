@@ -56,3 +56,4 @@ function connectUserDB() {
 
     return $conn;
 }
+?>
