@@ -8,7 +8,31 @@
 }
 
 body {
-    background: #F4F9FF;
+    font-family: 'League Spartan', sans-serif;
+    position: relative;
+    overflow-x: hidden;
+}
+ 
+/* ── Background Image ── */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    background-image: url("../imgs/desktop-bg.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 1 ;
+}
+ 
+/* Soft white wash overlay for readability */
+body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: rgba(255, 255, 255, 0.42);
 }
 
 body, input, textarea, button, select, h1, h2, h3, h4, h5, h6 {
