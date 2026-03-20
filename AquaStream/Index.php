@@ -6,17 +6,22 @@ $conn = connectUserDB();
 
 $userName = htmlspecialchars($_SESSION['user_name']);
 
-$totalOrders = $conn->query("SELECT COUNT(*) as count FROM orders")->fetch_assoc()['count'];
-$pendingOrders = $conn->query("SELECT COUNT(*) as count FROM orders WHERE order_status = 'Pending'")->fetch_assoc()['count'];
-$completedOrders = $conn->query("SELECT COUNT(*) as count FROM orders WHERE order_status = 'Completed'")->fetch_assoc()['count'];
+$totalOrders     = $conn->query("SELECT COUNT(*) AS count FROM ordersummary")->fetch_assoc()['count'];
+$pendingOrders   = $conn->query("SELECT COUNT(*) AS count FROM ordersummary WHERE OrderStatus = 'Pending'")->fetch_assoc()['count'];
+$completedOrders = $conn->query("SELECT COUNT(*) AS count FROM ordersummary WHERE OrderStatus = 'Completed'")->fetch_assoc()['count'];
 
 $today = date('Y-m-d');
+
+// Urgent = all Pending orders whose DeliveryDate is today or overdue
+// Uses a subquery to avoid GROUP BY issues with non-aggregated columns
 $urgentOrders = $conn->query(
-    "SELECT * FROM orders
-     WHERE order_status = 'Pending'
-     AND delivery_date <= '$today'
-     ORDER BY delivery_date ASC
-     LIMIT 6"
+    "SELECT os.OrderID, os.DeliveryDate, c.CustomerName, c.CustomerAddress
+     FROM ordersummary os
+     JOIN orderdetails od ON os.OrderID = od.OrderID
+     JOIN customers c     ON od.CustomerID = c.CustomerID
+     WHERE os.OrderStatus = 'Pending'
+       AND os.DeliveryDate <= CURDATE()
+     ORDER BY os.DeliveryDate ASC"
 );
 ?>
 <!DOCTYPE html>
@@ -38,13 +43,14 @@ $urgentOrders = $conn->query(
             <button class="logout-btn" onclick="location.href='logout.php'">Log Out</button>
         </div>
 
+        <!-- Stats -->
         <div class="stats-container">
             <div class="stat-card">
                 <h3>Total Orders</h3>
                 <div class="number"><?php echo $totalOrders; ?></div>
             </div>
             <div class="stat-card">
-                <h3>Pendings</h3>
+                <h3>Pending</h3>
                 <div class="number"><?php echo $pendingOrders; ?></div>
             </div>
             <div class="stat-card">
@@ -53,19 +59,24 @@ $urgentOrders = $conn->query(
             </div>
         </div>
 
+        <!-- Urgent Orders -->
         <div class="urgent-section">
             <h2>Urgent Orders</h2>
             <div class="orders-grid">
-                <?php if (mysqli_num_rows($urgentOrders) > 0): ?>
+                <?php if ($urgentOrders && $urgentOrders->num_rows > 0): ?>
                     <?php while ($row = $urgentOrders->fetch_assoc()): ?>
-                        <div class="order-card">
+                        <div class="order-card" id="order-card-<?php echo $row['OrderID']; ?>">
                             <div class="order-info">
-                                <h4>Order #<?php echo htmlspecialchars($row['id']); ?> - 
-                                    <?php echo ($row['delivery_date'] < $today) ? 'Overdue' : 'Due Today'; ?>
+                                <h4>
+                                    Order #<?php echo htmlspecialchars($row['OrderID']); ?> &mdash;
+                                    <?php echo ($row['DeliveryDate'] < $today) ? 'Overdue' : 'Due Today'; ?>
                                 </h4>
-                                <p><?php echo htmlspecialchars($row['customer_name']); ?>, <?php echo htmlspecialchars($row['customer_address']); ?></p>
+                                <p>
+                                    <?php echo htmlspecialchars($row['CustomerName']); ?>,
+                                    <?php echo htmlspecialchars($row['CustomerAddress']); ?>
+                                </p>
                             </div>
-                            <button class="complete-btn" onclick="completeOrder(<?php echo $row['id']; ?>)">
+                            <button class="complete-btn" onclick="completeOrder(<?php echo $row['OrderID']; ?>)">
                                 Complete
                             </button>
                         </div>
@@ -80,7 +91,7 @@ $urgentOrders = $conn->query(
     </div>
 
     <?php include 'footer.php'; ?>
-    
+
     <script src="js/main.js"></script>
 </body>
 </html>
