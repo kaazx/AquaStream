@@ -1,52 +1,113 @@
 <?php
-require_once 'db.php'; 
-
+require_once 'db.php';
 $conn = connectUserDB();
 
 $errors = [];
 $successMessage = '';
 
 if (isset($_POST['add'])) {
-    $customer_name = trim($_POST['customer_name'] ?? '');
-    $customer_address = trim($_POST['customer_address'] ?? '');
-    $quantity = intval($_POST['quantity'] ?? 0);
-    $delivery_date = trim($_POST['delivery_date'] ?? '');
-    $payment_method = trim($_POST['payment_method'] ?? '');
-    
+    $customer_name    = trim($_POST['Name'] ?? '');
+    $customer_address = trim($_POST['Address'] ?? '');
+    $quantity         = intval($_POST['Quantity'] ?? 0);
+    $delivery_date    = trim($_POST['DeliveryDate'] ?? '');
+    $payment_method   = trim($_POST['ModeOfPayment'] ?? '');
+
     if (empty($customer_name)) {
-        $errors['customer_name'] = 'Customer name is required.';}
-    
+        $errors['Name'] = 'Customer name is required.';
+    }
+
     if (empty($customer_address)) {
-        $errors['customer_address'] = 'Customer address is required.';}
-    
+        $errors['Address'] = 'Customer address is required.';
+    }
+
+    if ($quantity < 1) {
+        $errors['Quantity'] = 'Quantity must be at least 1.';
+    }
+
     if (empty($delivery_date)) {
-        $errors['delivery_date'] = 'Delivery date is required.';}
-    
+        $errors['DeliveryDate'] = 'Delivery date is required.';
+    } elseif ($delivery_date < date('Y-m-d')) {
+        $errors['DeliveryDate'] = 'Delivery date cannot be in the past.';
+    }
+
     if (empty($payment_method)) {
-        $errors['payment_method'] = 'Payment method is required.';}
-    
+        $errors['ModeOfPayment'] = 'Payment method is required.';
+    }
+
     if (empty($errors)) {
-        $customer_name = $conn->real_escape_string($customer_name);
-        $customer_address = $conn->real_escape_string($customer_address);
-        $delivery_date = $conn->real_escape_string($delivery_date);
-        $payment_method = $conn->real_escape_string($payment_method);
-        
-        $result = $conn->query("INSERT INTO orders (customer_name, customer_address, quantity, delivery_date, payment_method, order_status, created_at) 
-                                VALUES ('$customer_name', '$customer_address', $quantity, '$delivery_date', '$payment_method', 'Pending', NOW())");
-        
-        if ($result) {
-            $orderId = $conn->insert_id;
-            $_SESSION['success_message'] = "Order #$orderId created successfully!";
-            header("Location: CreateOrder.php");
-            exit();
+
+        // Find or create customer (uses correct column names: CustomerName, CustomerAddress)
+        $stmt = $conn->prepare("SELECT CustomerID FROM customers WHERE CustomerName = ? AND CustomerAddress = ?");
+        $stmt->bind_param("ss", $customer_name, $customer_address);
+        $stmt->execute();
+        $stmt->store_result();
+
+        if ($stmt->num_rows > 0) {
+            $stmt->bind_result($customerID);
+            $stmt->fetch();
+            $stmt->close();
         } else {
-            $errors['database'] = 'Failed to create order. Please try again.';}
+            $stmt->close();
+            $stmt = $conn->prepare("INSERT INTO customers (CustomerName, CustomerAddress) VALUES (?, ?)");
+            $stmt->bind_param("ss", $customer_name, $customer_address);
+            $stmt->execute();
+            $customerID = $conn->insert_id;
+            $stmt->close();
+        }
+
+        // Fetch product (uses correct column name: ProductName, UnitPrice)
+        $stmt = $conn->prepare("SELECT ProductID, UnitPrice FROM products WHERE ProductName = 'Gallon of Water' LIMIT 1");
+        $stmt->execute();
+        $stmt->bind_result($productID, $unitPrice);
+        $stmt->fetch();
+        $stmt->close();
+
+        if (empty($productID)) {
+            $errors['database'] = 'Default product not found. Please contact support.';
+        } else {
+            $totalAmount = $quantity * $unitPrice;
+
+            // Insert into ordersummary first (OrderID is the PK referenced by orderdetails)
+            $stmt = $conn->prepare(
+                "INSERT INTO ordersummary (OrderDate, DeliveryDate, ModeOfPayment, OrderStatus, TotalAmount)
+                 VALUES (CURDATE(), ?, ?, 'Pending', ?)"
+            );
+            $stmt->bind_param("ssd", $delivery_date, $payment_method, $totalAmount);
+
+            if ($stmt->execute()) {
+                $orderID = $conn->insert_id;
+                $stmt->close();
+
+                // Insert into orderdetails
+                $stmt = $conn->prepare(
+                    "INSERT INTO orderdetails (OrderID, CustomerID, ProductID, Quantity, UnitPrice)
+                     VALUES (?, ?, ?, ?, ?)"
+                );
+                $stmt->bind_param("iiiid", $orderID, $customerID, $productID, $quantity, $unitPrice);
+
+                if ($stmt->execute()) {
+                    $stmt->close();
+                    $_SESSION['success_message'] = "Order #$orderID created successfully!";
+                    header("Location: CreateOrder.php");
+                    exit();
+                } else {
+                    // Roll back ordersummary row if detail insert fails
+                    $conn->query("DELETE FROM ordersummary WHERE OrderID = $orderID");
+                    $errors['database'] = 'Failed to save order details. Please try again.';
+                    $stmt->close();
+                }
+            } else {
+                $errors['database'] = 'Failed to create order. Please try again.';
+                $stmt->close();
+            }
+        }
     }
 }
 
 if (isset($_SESSION['success_message'])) {
     $successMessage = $_SESSION['success_message'];
-    unset($_SESSION['success_message']);}
+    unset($_SESSION['success_message']);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -62,14 +123,14 @@ if (isset($_SESSION['success_message'])) {
 </head>
 <body>
     <?php include 'sidebar.php'; ?>
-    
+
     <main class="main-content">
         <div class="order-container">
             <div class="order-card">
                 <div class="card-header">
                     <h2 class="form-title">New Order Form</h2>
                 </div>
-                
+
                 <!-- Success Message -->
                 <?php if (!empty($successMessage)): ?>
                 <div class="alert alert-success" role="alert">
@@ -77,22 +138,33 @@ if (isset($_SESSION['success_message'])) {
                     <?php echo htmlspecialchars($successMessage); ?>
                 </div>
                 <?php endif; ?>
-                
+
+                <!-- Error Messages -->
+                <?php if (!empty($errors)): ?>
+                <div class="alert alert-error" role="alert">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <?php foreach ($errors as $error): ?>
+                        <p><?php echo htmlspecialchars($error); ?></p>
+                    <?php endforeach; ?>
+                </div>
+                <?php endif; ?>
+
                 <!-- Order Form -->
                 <form method="POST" class="order-form" id="orderForm">
-                    
+
                     <!-- Customer Name -->
                     <div class="form-group">
                         <label for="customer_name" class="form-label">Name <span class="required">*</span></label>
-                        <input type="text" id="customer_name" name="customer_name" class="form-input" placeholder="Customer name" required>
+                        <input type="text" id="customer_name" name="Name" class="form-input" placeholder="Customer name"
+                               value="<?php echo htmlspecialchars($_POST['Name'] ?? ''); ?>" required>
                     </div>
-                    
+
                     <!-- Customer Address -->
                     <div class="form-group">
                         <label for="customer_address" class="form-label">Address <span class="required">*</span></label>
-                        <textarea id="customer_address" name="customer_address" class="form-input form-textarea" placeholder="Customer address" rows="2" required></textarea>
+                        <textarea id="customer_address" name="Address" class="form-input form-textarea" placeholder="Customer address" rows="2" required><?php echo htmlspecialchars($_POST['Address'] ?? ''); ?></textarea>
                     </div>
-                    
+
                     <div class="form-row">
                         <!-- Quantity -->
                         <div class="form-group form-group-half">
@@ -101,47 +173,43 @@ if (isset($_SESSION['success_message'])) {
                                 <button type="button" class="quantity-btn quantity-minus" id="quantityMinus" aria-label="Decrease quantity">
                                     <i class="fas fa-minus"></i>
                                 </button>
-                                <input type="number" id="quantity" name="quantity" class="form-input quantity-input" value="<?php echo htmlspecialchars($formData['quantity'] ?? '1'); ?>" min="1" required readonly>
+                                <input type="number" id="quantity" name="Quantity" class="form-input quantity-input"
+                                       value="<?php echo htmlspecialchars($_POST['Quantity'] ?? '1'); ?>"
+                                       min="1" required readonly>
                                 <button type="button" class="quantity-btn quantity-plus" id="quantityPlus" aria-label="Increase quantity">
                                     <i class="fas fa-plus"></i>
                                 </button>
                             </div>
                         </div>
-                        
+
                         <!-- Delivery Date -->
                         <div class="form-group form-group-half">
                             <label for="delivery_date" class="form-label">Delivery Date <span class="required">*</span></label>
                             <div class="date-input-wrapper">
-                                <input type="date" id="delivery_date" name="delivery_date" class="form-input date-input" min="<?php echo date('Y-m-d'); ?>" required>
+                                <input type="date" id="delivery_date" name="DeliveryDate" class="form-input date-input"
+                                       min="<?php echo date('Y-m-d'); ?>"
+                                       value="<?php echo htmlspecialchars($_POST['DeliveryDate'] ?? ''); ?>" required>
                                 <i class="fas fa-calendar date-icon"></i>
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- Payment Method -->
                     <div class="payment-container">
                         <label class="form-label">Payment Method <span class="required">*</span></label>
+                        <?php
+                            $selectedPayment = $_POST['ModeOfPayment'] ?? 'Cash on Delivery';
+                            $methods = ['Cash', 'G-Cash', 'Card', 'Cash on Delivery'];
+                            foreach ($methods as $method):
+                        ?>
                         <label class="radio-option">
-                            <input type="radio" name="payment_method" value="Cash" required>
-                            Cash
+                            <input type="radio" name="ModeOfPayment" value="<?php echo $method; ?>"
+                                <?php echo ($selectedPayment === $method) ? 'checked' : ''; ?> required>
+                            <?php echo $method; ?>
                         </label>
-
-                        <label class="radio-option">
-                            <input type="radio" name="payment_method" value="G-Cash">
-                            G-Cash
-                        </label>
-
-                        <label class="radio-option">
-                            <input type="radio" name="payment_method" value="Card">
-                            Card
-                        </label>
-
-                        <label class="radio-option">
-                            <input type="radio" name="payment_method" value="Cash on Delivery" checked>
-                            Cash on Delivery
-                        </label>
+                        <?php endforeach; ?>
                     </div>
-                    
+
                     <!-- Submit Button -->
                     <div class="form-actions">
                         <button type="submit" name="add" class="btn btn-primary">
@@ -151,10 +219,10 @@ if (isset($_SESSION['success_message'])) {
                 </form>
             </div>
         </div>
-        
+
         <?php include 'footer.php'; ?>
     </main>
-    
+
     <script src="js/main.js"></script>
 </body>
 </html>
