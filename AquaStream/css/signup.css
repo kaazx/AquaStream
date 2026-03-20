@@ -166,7 +166,7 @@ form input {
     gap: 10px;
 }
 
-.social-buttons button {
+.social-buttons a {
     flex: 1;
     padding: 10px 15px;
     border-radius: 8px;
@@ -180,9 +180,10 @@ form input {
     font-size: 14px;
     color: #333;
     font-weight: 500;
+    text-decoration: none;
 }
 
-.social-buttons button img {
+.social-buttons a img {
     width: 20px;
     height: 20px;
     object-fit: contain;
