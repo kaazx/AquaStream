@@ -1,0 +1,243 @@
+@import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;500;600;700;800&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'League Spartan', sans-serif;
+    position: relative;
+    overflow-x: hidden;
+}
+ 
+/* ── Background Image ── */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    background-image: url("../imgs/desktop-bg.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 1 ;
+}
+ 
+/* Soft white wash overlay for readability */
+body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: rgba(255, 255, 255, 0.42);
+}
+body, input, textarea, button, select, h1, h2, h3, h4, h5, h6 {
+    font-family: 'League Spartan', sans-serif !important;
+}
+
+html, body {
+    height: 100%;
+}
+
+/* ── Layout ─────────────────────────────────────────────────────────── */
+.sales-main {
+    margin-left: 265px;
+    min-height: 100vh;
+    padding: 40px 40px 100px 40px;
+   
+}
+
+.sales-container {
+    max-width: 1100px;
+}
+
+/* ── Header ─────────────────────────────────────────────────────────── */
+.sales-header {
+    margin-bottom: 10px;
+}
+
+.sales-header h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: #1856AB;
+    line-height: 1.1;
+    margin-bottom: 2px;
+}
+
+
+/* ── Tabs ────────────────────────────────────────────────────────────── */
+.tabs {
+    display: inline-flex;
+    background: #FFFFFF;
+    border: 1px solid #D1D5DB;
+    border-radius: 8px;
+    padding: 4px;
+    margin-bottom: 28px;
+    gap: 4px;
+}
+
+.tab-button {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 10px 24px;
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    font-family: 'League Spartan', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #6b7280;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    white-space: nowrap;
+}
+
+.tab-button:hover {
+    color: #003695;
+}
+
+.tab-button.active {
+    background: #EEF4FF;
+    color: #003695;
+    font-weight: 600;
+}
+
+/* ── Tab content ─────────────────────────────────────────────────────── */
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* ── Metrics grid ────────────────────────────────────────────────────── */
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+/* ── Cards ───────────────────────────────────────────────────────────── */
+.card {
+    background: #FFFFFF;
+    border-radius: 10px;
+    border: 1px solid #E5E7EB;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+.metric-card {
+    padding: 24px 28px;
+}
+
+.metric-label {
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: #6b7280;
+    margin-bottom: 10px;
+}
+
+.metric-value {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #1A2B49;
+    margin-bottom: 4px;
+    line-height: 1.1;
+}
+
+.metric-subtext {
+    font-size: 0.875rem;
+    color: #9ca3af;
+    font-weight: 400;
+}
+
+.metric-change {
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-top: 4px;
+}
+
+.metric-change.positive {
+    color: #059669;
+}
+
+.metric-change.negative {
+    color: #dc2626;
+}
+
+/* ── Chart cards ─────────────────────────────────────────────────────── */
+.chart-card {
+    padding: 24px 28px;
+    margin-bottom: 20px;
+}
+
+.chart-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1A2B49;
+    margin-bottom: 16px;
+}
+
+.chart-container {
+    position: relative;
+    height: 300px;
+}
+
+/* ── Tablet: 768px – 1024px ──────────────────────────────────────────── */
+@media screen and (max-width: 1024px) {
+
+    .sales-main {
+        margin-left: 160px;
+        padding: 24px 20px 80px 20px;
+    }
+
+    .sales-header h1 {
+        font-size: 2.4rem;
+    }
+
+    .metrics-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .metric-value {
+        font-size: 1.8rem;
+    }
+
+    .tabs {
+        width: 100%;
+        display: flex;
+    }
+
+    .tab-button {
+        flex: 1;
+        justify-content: center;
+        padding: 10px 12px;
+        font-size: 0.9rem;
+    }
+
+    .chart-container {
+        height: 240px;
+    }
+}
+
+/* ── Mobile ──────────────────────────────────────────────────────────── */
+@media screen and (max-width: 767px) {
+
+    .sales-main {
+        margin-left: 0;
+        padding: 16px 16px 80px 16px;
+    }
+
+    .sales-header h1 {
+        font-size: 2rem;
+    }
+
+    .metric-value {
+        font-size: 1.6rem;
+    }
+}
