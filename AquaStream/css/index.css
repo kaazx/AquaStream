@@ -11,7 +11,30 @@
 
 body {
     font-family: 'League Spartan', sans-serif;
-    background-color: #f5f5f5;
+    position: relative;
+    overflow-x: hidden;
+}
+ 
+/* ── Background Image ── */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    background-image: url("../imgs/desktop-bg.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 1 ;
+}
+ 
+/* Soft white wash overlay for readability */
+body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: rgba(255, 255, 255, 0.42);
 }
 
 /* Main Content Area */
@@ -31,7 +54,7 @@ body {
 
 .header h1 {
     font-family: 'League Spartan', sans-serif;
-    color: #003366;
+    color: #1856AB;
     font-size: 50px;
     font-weight: 700;
 }
@@ -64,7 +87,7 @@ body {
 
 /* Statistics Cards */
 .stat-card {
-    background: linear-gradient(135deg, #b3d9ff 0%, #cce6ff 100%);
+    background: #fff;
     padding: 25px;
     border-radius: 15px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -104,7 +127,7 @@ body {
 
 /* Order Cards */
 .order-card {
-    background-color: #e6f2ff;
+    background-color: #EAF6FF;
     padding: 20px;
     border-radius: 15px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
