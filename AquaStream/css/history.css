@@ -9,8 +9,32 @@
 
 body {
     font-family: 'League Spartan', sans-serif;
-    background-color: #f5f5f5;
+    position: relative;
+    overflow-x: hidden;
 }
+ 
+/* ── Background Image ── */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    background-image: url("../imgs/desktop-bg.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 1 ;
+}
+ 
+/* Soft white wash overlay for readability */
+body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: rgba(255, 255, 255, 0.42);
+}
+
 
 .container {
     display: flex;
@@ -21,7 +45,7 @@ main {
     flex: 1;
     margin-left: 200px;
     padding: 40px;
-    background-color:#F4F9FF;
+    
     display: flex;
     justify-content: center;
 }
@@ -41,7 +65,7 @@ main {
 
 h1 {
     margin: 0;
-    color: #003685;
+    color: #1856AB;
     width: 100%;
 }
 
@@ -54,7 +78,7 @@ h1 {
 }
 
 .order-card {
-    background-color: #e8f4f8;
+    background-color: #EAF6FF;
     border-radius: 8px;
     padding: 20px 25px;
     width: 100%;
@@ -80,6 +104,16 @@ h3 {
 
 .detail-label {
     font-weight: 600;
+}
+
+.no-orders {
+    font-family: 'League Spartan', sans-serif;
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px;
+    color: #666;
+    font-size: 1.7rem;
+    font-weight: 400;
 }
 
 /* Tablet (768px - 1024px) */
