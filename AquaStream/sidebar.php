@@ -23,6 +23,11 @@ $current_page = basename($_SERVER['PHP_SELF']);
             <img src="imgs/orderslist-icon.png" alt="Orders List" class="nav-icon">
             <span>Orders List</span>
         </a>
+
+        <a href="Sales.php" class="nav-item <?php echo ($current_page == 'Sales.php') ? 'active' : ''; ?>">
+            <img src="imgs/sales-icon.png" alt="Sales" class="nav-icon">
+            <span>Sales</span>
+        </a>
         
         <a href="History.php" class="nav-item <?php echo ($current_page == 'History.php') ? 'active' : ''; ?>">
             <img src="imgs/history-icon.png" alt="History" class="nav-icon">
