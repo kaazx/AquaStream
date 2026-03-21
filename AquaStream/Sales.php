@@ -58,7 +58,6 @@ $weeklyRows = $conn->query(
         YEARWEEK(os.DeliveryDate, 1)            AS yw,
         SUM(os.TotalAmount)                     AS sales,
         COUNT(DISTINCT os.OrderID)              AS orders,
-        COUNT(DISTINCT od.CustomerID)           AS customers
      FROM ordersummary os
      JOIN orderdetails od ON os.OrderID = od.OrderID
      WHERE os.OrderStatus = 'Completed'
