@@ -9,7 +9,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
     </div>
     
     <nav class="sidebar-nav">
-        <a href="Index.php" class="nav-item <?php echo ($current_page == 'Index.php') ? 'active' : ''; ?>">
+        <a href="index.php" class="nav-item <?php echo ($current_page == 'index.php') ? 'active' : ''; ?>">
             <img src="imgs/dashboard-icon.png" alt="Dashboard" class="nav-icon">
             <span>Dashboard</span>
         </a>
