@@ -4,7 +4,7 @@ session_start();
 require_once 'db.php';
 
 if (!empty($_SESSION['user_db'])) {
-    header("Location: Index.php");
+    header("Location: index.php");
     exit();
 }
 
@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['user_name']  = $user['first_name'];
         $_SESSION['user_db']    = $user['user_db'];
 
-        header("Location: Index.php");
+        header("Location: index.php");
         exit();
     } else {
         $message = "Invalid email or password.";
@@ -82,7 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <div class="signup-link">
                 Don't you have an account?
-                <a href="signup.php" class="btn-small">Sign Up</a>
+                <a href="Signup.php" class="btn-small">Sign Up</a>
             </div>
         </form>
     </div>
