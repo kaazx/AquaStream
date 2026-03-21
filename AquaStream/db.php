@@ -8,7 +8,7 @@
 //
 // ============================================================
 
-define('DB_HOST', 'localhost');
+define('DB_HOST', 'host.docker.internal');
 define('DB_USER', 'root');       // ← Live server
 define('DB_PASS', '');           // ← Live server
 define('MASTER_DB', 'aquastream_master'); // The one shared database
